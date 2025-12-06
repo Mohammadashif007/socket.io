@@ -10,7 +10,7 @@
             <h1>Online user-list</h1>
             <ul id="users"></ul>
         </div>
-        <div id="chat-container"></div>
+        <div id="chat"></div>
         <form id="message-form">
             <input
                 type="text"
@@ -25,7 +25,7 @@
         <script>
             const socket = io();
 
-            const chat = document.getElementById("chat-container");
+            const chat = document.getElementById("chat");
             const messageForm = document.getElementById("message-form");
             const messageInput = document.getElementById("message-input");
 
@@ -33,6 +33,21 @@
 
             // Emit a event
             socket.emit("join", userName);
+
+            socket.on("userJoined", (userName) => {
+                addMessage(`${userName} has joined to the chat`);
+            });
+
+            // helper function to print message
+            function addMessage(input) {
+                const messageElement = document.createElement("div");
+                messageElement.textContent = input;
+                chat.appendChild = messageElement;
+
+                // scroll to the bottom of chat container
+
+                chat.scrollTop = chat.scrollHeight;
+            }
         </script>
     </body>
 </html>

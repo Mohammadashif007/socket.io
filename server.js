@@ -9,14 +9,21 @@ const server = http.createServer(app);
 const io = socketIo(server);
 app.use(express.static("public"));
 
-const user = new Set();
+const users = new Set();
 
 io.on("connection", (socket) => {
     console.log("User connection");
 
     // ! handle when user join the chat
     socket.on("join", (userName) => {
-        user.add(userName);
+        users.add(userName);
+        // ! broadcast all user that a new user has joined
+        io.emit("userJoined", (user)=>{
+            
+        });
+
+        // ! updated user list
+        io.emit("userList", Array.from(users));
     });
 
     // ! handle user incoming chat message
