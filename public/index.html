@@ -28,6 +28,11 @@
             const chat = document.getElementById("chat-container");
             const messageForm = document.getElementById("message-form");
             const messageInput = document.getElementById("message-input");
+
+            const userName = prompt("Enter your user name");
+
+            // Emit a event
+            socket.emit("join", userName);
         </script>
     </body>
 </html>

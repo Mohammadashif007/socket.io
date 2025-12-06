@@ -15,7 +15,9 @@ io.on("connection", (socket) => {
     console.log("User connection");
 
     // ! handle when user join the chat
-    
+    socket.on("join", (userName) => {
+        user.add(userName);
+    });
 
     // ! handle user incoming chat message
 
