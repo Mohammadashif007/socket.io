@@ -1,32 +1,31 @@
 import express from "express";
 import http from "http";
-import socketIo from "socket.io";
+import { Server } from "socket.io";
 
 const app = express();
 const server = http.createServer(app);
 
 // !initialized socket.io and attached to the http server
-const io = socketIo(server);
+const io = new Server(server);
 app.use(express.static("public"));
 
 const users = new Set();
 
 io.on("connection", (socket) => {
-    console.log("User connection");
-
-    // ! handle when user join the chat
+    console.log("A new user connected");
     socket.on("join", (userName) => {
         users.add(userName);
-        // ! broadcast all user that a new user has joined
-        io.emit("userJoined", (user)=>{
-            
-        });
 
-        // ! updated user list
-        io.emit("userList", Array.from(users));
+        // ! broadcast to all user that a new user has joined
+        socket.emit("userJoined", userName);
+
+        // ! send the updated user lint to all client
+        socket.emit("userList", Array.from(users));
     });
+});
 
-    // ! handle user incoming chat message
+const PORT = 3000;
 
-    // ! handle user disconnection
+app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
 });
