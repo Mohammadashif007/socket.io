@@ -13,8 +13,11 @@ app.get("/", (req, res) => {
     res.sendFile("./public/index.html");
 });
 
-io.on("connect", (socket) => {
-    console.log("A user connected");
+io.on("connection", (socket) => {
+    socket.on("message", (message) => {
+        console.log(message);
+        socket.emit("server-message", message);
+    });
 });
 
 server.listen(port, () => {
