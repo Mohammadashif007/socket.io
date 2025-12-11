@@ -72,24 +72,16 @@
         <script src="/socket.io/socket.io.js"></script>
         <script>
             const socket = io();
-            socket.emit("message", "Hello world");
 
             const form = document.getElementById("form");
-            const ul = document.getElementById("messages");
-            
+            const input = document.getElementById("input");
 
-            form.addEventListener("submit", (e) => {
+            document.addEventListener("submit", (e) => {
                 e.preventDefault();
-                const formData = new FormData(form);
-                const text = formData.get("text");
-                socket.emit("message", text);
-            });
-
-            socket.on("server-message", (text) => {
-                const li = document.createElement("li");
-                console.log(text);
-                li.textContent = text;
-                ul.appendChild(li);
+                if (input.value) {
+                    socket.emit("chat message", input.value);
+                    input.value = ""
+                }
             });
         </script>
     </body>
